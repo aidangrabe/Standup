@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion versions.targetAndCompileSdk
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "com.aidangrabe.standup"
+        minSdkVersion 17
+        targetSdkVersion versions.targetAndCompileSdk
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile "com.android.support:appcompat-v7:${versions.supportLibrary}"
+    compile "org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlin}"
+
+    testCompile "junit:junit:4.12"
+}
