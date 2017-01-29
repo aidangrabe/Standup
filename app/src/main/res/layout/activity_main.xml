@@ -13,6 +13,7 @@
         android:id="@+id/main_content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_navigation"
         />
 
     <android.support.design.widget.FloatingActionButton
@@ -33,8 +34,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         app:itemBackground="?colorPrimary"
-        app:itemIconTint="?bottomBarIconColor"
-        app:itemTextColor="?bottomBarTextColor"
+        app:itemIconTint="@drawable/nav_item_state_colors"
+        app:itemTextColor="@drawable/nav_item_state_colors"
         app:menu="@menu/bottom_navigation_main"
         />
 

@@ -5,7 +5,7 @@
     >
 
     <item
-        android:id="@+id/action_favorites"
+        android:id="@+id/nav_yesterday"
         android:enabled="true"
         android:icon="@drawable/ic_yesterday"
         android:title="Yesterday"
@@ -14,7 +14,7 @@
         />
 
     <item
-        android:id="@+id/action_schedules"
+        android:id="@+id/nav_today"
         android:enabled="true"
         android:icon="@drawable/ic_today"
         android:title="Today"
@@ -22,7 +22,7 @@
         />
 
     <item
-        android:id="@+id/action_music"
+        android:id="@+id/nav_blockers"
         android:enabled="true"
         android:icon="@drawable/ic_blockers"
         android:title="Blockers"

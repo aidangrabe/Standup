@@ -33,4 +33,8 @@ class RowAdapter(val layoutInflater: LayoutInflater) : RecyclerView.Adapter<Recy
         viewHolderFactories.put(row.viewId(), row.viewHolderFactory())
     }
 
+    fun clearRows() {
+        rows.clear()
+    }
+
 }
