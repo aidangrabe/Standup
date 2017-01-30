@@ -2,17 +2,19 @@ package com.aidangrabe.standup
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.aidangrabe.standup.blockers.BlockersListFragment
 import com.aidangrabe.standup.createitem.CreateItemActivity
+import com.aidangrabe.standup.data.Type
 import com.aidangrabe.standup.today.TodayListFragment
 import com.aidangrabe.standup.yesterday.YesterdayListFragment
+import com.roughike.bottombar.BottomBar
 
 class MainActivity : AppCompatActivity() {
 
-    val bottomNav by lazy { findViewById(R.id.bottom_navigation) as BottomNavigationView }
+    val bottomNav by lazy { findViewById(R.id.bottom_navigation) as BottomBar }
+    var type = Type.Today.toString()
 
     companion object {
         val TAG_YESTERDAY_FRAGMENT = "frag_yesterday"
@@ -24,39 +26,40 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        bottomNav.setOnNavigationItemSelectedListener { selectScreen(it.itemId) }
+        bottomNav.setOnTabSelectListener { selectScreen(it) }
 
         findViewById(R.id.fab).setOnClickListener {
             val intent = Intent(this, CreateItemActivity::class.java)
+            intent.putExtra("type", type)
             startActivity(intent)
         }
 
-        selectScreen(R.id.nav_today)
+        bottomNav.selectTabWithId(R.id.nav_today)
 
     }
 
     private fun selectScreen(id: Int): Boolean {
         when (id) {
             R.id.nav_yesterday -> {
+                type = Type.Yesterday.toString()
                 findOrCreateFragmentAndSet(TAG_YESTERDAY_FRAGMENT) {
-                println("yesterday!")
                     YesterdayListFragment()
                 }
             }
             R.id.nav_today -> {
+                type = Type.Today.toString()
                 findOrCreateFragmentAndSet(TAG_TODAY_FRAGMENT) {
-                    println("today!")
                     TodayListFragment()
                 }
             }
             R.id.nav_blockers -> {
+                type = Type.Blocker.toString()
                 findOrCreateFragmentAndSet(TAG_BLOCKERS_FRAGMENT) {
-                println("blockers!")
                     BlockersListFragment()
                 }
             }
         }
-        bottomNav.menu.findItem(id).isChecked = true
+
         return true
     }
 
@@ -69,7 +72,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setFragment(tag: String, fragment: Fragment) {
-        println("Set fragment: ${fragment.javaClass.name}")
         supportFragmentManager.beginTransaction()
                 .replace(R.id.main_content_frame, fragment, tag)
                 .commit()

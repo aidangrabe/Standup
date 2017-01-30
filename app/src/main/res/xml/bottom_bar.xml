@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+
+    <tab
+        id="@+id/nav_yesterday"
+        icon="@drawable/ic_yesterday"
+        title="Yesterday"
+        barColorWhenSelected="#546e7a"
+        />
+
+    <tab
+        id="@+id/nav_today"
+        icon="@drawable/ic_today"
+        title="Today"
+        barColorWhenSelected="?colorPrimary"
+        />
+
+    <tab
+        id="@+id/nav_blockers"
+        icon="@drawable/ic_blockers"
+        title="Blockers"
+        barColorWhenSelected="#d50000"
+        />
+
+</tabs>

@@ -6,7 +6,10 @@ buildscript {
         versions = [
                 kotlin: '1.0.6',
                 supportLibrary: '25.1.0',
-                targetAndCompileSdk: 25
+                targetAndCompileSdk: 25,
+
+                // dependencies
+                bottomBar: '2.1.1'
         ]
     }
 
