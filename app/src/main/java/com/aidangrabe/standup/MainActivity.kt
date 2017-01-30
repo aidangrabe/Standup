@@ -4,9 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import com.aidangrabe.standup.blockers.BlockersListFragment
 import com.aidangrabe.standup.createitem.CreateItemActivity
 import com.aidangrabe.standup.data.Type
+import com.aidangrabe.standup.data.database.TodoItemRepository
 import com.aidangrabe.standup.today.TodayListFragment
 import com.aidangrabe.standup.yesterday.YesterdayListFragment
 import com.roughike.bottombar.BottomBar
@@ -38,6 +41,19 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main_activity, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.action_clear_all -> {
+            TodoItemRepository.clearType(type)
+            true
+        }
+        else -> true
+    }
+
     private fun selectScreen(id: Int): Boolean {
         when (id) {
             R.id.nav_yesterday -> {
@@ -63,8 +79,10 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun findOrCreateFragmentAndSet(tag: String, factory: () -> Fragment) {
-        setFragment(tag, findOrCreateFragment(tag, factory))
+    private fun findOrCreateFragmentAndSet(tag: String, factory: () -> Fragment): Fragment {
+        val fragment = findOrCreateFragment(tag, factory)
+        setFragment(tag, fragment)
+        return fragment
     }
 
     private fun findOrCreateFragment(tag: String, factory: () -> Fragment): Fragment {
