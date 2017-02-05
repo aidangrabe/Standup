@@ -1,5 +1,6 @@
 package com.aidangrabe.standup.blockers
 
+import com.aidangrabe.standup.TodoListFragment
 import com.aidangrabe.standup.data.database.TodoItemRepository
 import com.aidangrabe.standup.list.ListFragment
 import com.aidangrabe.standup.rows.LabelRow
@@ -7,7 +8,9 @@ import com.aidangrabe.standup.rows.LabelRow
 /**
  *
  */
-class BlockersListFragment : ListFragment() {
+class BlockersListFragment : ListFragment(), TodoListFragment {
+
+    override fun todoType() = "blocker"
 
     override fun onResume() {
         super.onResume()

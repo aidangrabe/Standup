@@ -27,7 +27,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        viewPager.adapter = MainFragmentAdapter(supportFragmentManager)
+        val adapter = MainFragmentAdapter(supportFragmentManager)
+        viewPager.adapter = adapter
+        viewPager.addOnPageChangeListener(OnFragmentChangedListener(viewPager, adapter) {
+            if (it is TodoListFragment) {
+                type = it.todoType()
+            }
+        })
 
         bottomNav.setOnTabSelectListener {
             val tabPosition = bottomNav.findPositionForTabWithId(it)
