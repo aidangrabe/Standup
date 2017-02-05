@@ -29,9 +29,12 @@ object TodoItemRepository : SqliteRepository(Threading.DB_EXECUTOR, Threading.MA
         query("SELECT * FROM ${TodoItemTable.tableName()}", callback)
     }
 
-    fun  clearType(type: String) {
+    fun  clearType(type: String, callback: () -> Unit) {
         ioExecutor.execute {
             database.delete(TodoItemTable.tableName(), "${TodoItemTable.TYPE}=?", arrayOf(type))
+            callbackExecutor.execute {
+                callback()
+            }
         }
     }
 

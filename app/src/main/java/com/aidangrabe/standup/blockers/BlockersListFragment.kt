@@ -12,6 +12,8 @@ class BlockersListFragment : ListFragment(), TodoListFragment {
 
     override fun todoType() = "blocker"
 
+    override fun reload() = getItems()
+
     override fun onResume() {
         super.onResume()
         getItems()

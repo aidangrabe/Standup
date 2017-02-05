@@ -12,6 +12,8 @@ class YesterdayListFragment : ListFragment(), TodoListFragment {
 
     override fun todoType() = "yesterday"
 
+    override fun reload() = getItems()
+
     override fun onResume() {
         super.onResume()
         getItems()

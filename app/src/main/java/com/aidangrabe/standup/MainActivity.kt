@@ -2,6 +2,8 @@ package com.aidangrabe.standup
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
@@ -15,6 +17,8 @@ class MainActivity : AppCompatActivity() {
 
     val bottomNav by lazy { findViewById(R.id.bottom_navigation) as BottomBar }
     val viewPager by lazy { findViewById(R.id.view_pager) as ViewPager }
+    val adapter by lazy { MainFragmentAdapter(supportFragmentManager) }
+
     var type = Type.Today.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +31,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        val adapter = MainFragmentAdapter(supportFragmentManager)
         viewPager.adapter = adapter
         viewPager.addOnPageChangeListener(OnFragmentChangedListener(viewPager, adapter) {
             if (it is TodoListFragment) {
@@ -50,10 +53,22 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_clear_all -> {
-            TodoItemRepository.clearType(type)
+            clearTodosForType(type)
             true
         }
         else -> true
     }
 
+    private fun clearTodosForType(type: String) {
+        TodoItemRepository.clearType(type) {
+            val fragment = viewPager.getCurrentFragment() as TodoListFragment
+            fragment.reload()
+        }
+    }
+
+}
+
+fun ViewPager.getCurrentFragment(): Fragment {
+    val fragmentPagerAdapter = adapter as FragmentPagerAdapter
+    return fragmentPagerAdapter.getItem(currentItem)
 }
