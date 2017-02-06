@@ -29,6 +29,18 @@ object TodoItemRepository : SqliteRepository(Threading.DB_EXECUTOR, Threading.MA
         query("SELECT * FROM ${TodoItemTable.tableName()}", callback)
     }
 
+    fun getAllTodoItems(callback: (List<TodoItem>, List<TodoItem>, List<TodoItem>) -> Unit) {
+        query("SELECT * FROM ${TodoItemTable.tableName()} ORDER BY ${TodoItemTable.TYPE}") {
+            val resultMap = it.groupBy { it.type.name }
+            println(resultMap)
+            val emptyList = Collections.emptyList<TodoItem>()
+            callback(resultMap["Yesterday"] ?: emptyList,
+                    resultMap["Today"] ?: emptyList,
+                    resultMap["Blockers"] ?: emptyList
+            )
+        }
+    }
+
     fun  clearType(type: String, callback: () -> Unit) {
         ioExecutor.execute {
             database.delete(TodoItemTable.tableName(), "${TodoItemTable.TYPE}=?", arrayOf(type))
@@ -43,6 +55,16 @@ object TodoItemRepository : SqliteRepository(Threading.DB_EXECUTOR, Threading.MA
                 cursor.getString(cursor.getColumnIndex(TodoItemTable.TITLE)),
                 Type.fromString(cursor.getString(cursor.getColumnIndex(TodoItemTable.TYPE)))
         )
+    }
+
+    private fun syncQuery(query: String): List<TodoItem> {
+        val cursor = database.rawQuery(query, null)
+        val list = ArrayList<TodoItem>()
+        while (cursor.moveToNext()) {
+            list.add(fromCursor(cursor))
+        }
+        cursor.close()
+        return list
     }
 
     private fun query(query: String, callback: (List<TodoItem>) -> Unit) {

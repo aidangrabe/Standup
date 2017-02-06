@@ -12,6 +12,7 @@ import android.view.MenuItem
 import com.aidangrabe.standup.createitem.CreateItemActivity
 import com.aidangrabe.standup.data.Type
 import com.aidangrabe.standup.data.database.TodoItemRepository
+import com.aidangrabe.standup.notifications.NotificationPresenter
 import com.roughike.bottombar.BottomBar
 
 class MainActivity : AppCompatActivity() {
@@ -47,6 +48,12 @@ class MainActivity : AppCompatActivity() {
         }
         bottomNav.selectTabWithId(R.id.nav_today)
 
+        showNotification()
+
+    }
+
+    private fun showNotification() {
+        NotificationPresenter.showStandupNotification(this)
     }
 
     private fun setupToolbar() {
