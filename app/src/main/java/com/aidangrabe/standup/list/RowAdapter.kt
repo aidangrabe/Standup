@@ -33,6 +33,12 @@ class RowAdapter(val layoutInflater: LayoutInflater) : RecyclerView.Adapter<Recy
         viewHolderFactories.put(row.viewId(), row.viewHolderFactory())
     }
 
+    fun itemAtPosition(position: Int) = rows[position]
+
+    fun removeItem(position: Int) {
+        rows.removeAt(position)
+    }
+
     fun clearRows() {
         rows.clear()
     }

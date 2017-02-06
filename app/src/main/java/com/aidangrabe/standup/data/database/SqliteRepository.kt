@@ -19,4 +19,14 @@ abstract class SqliteRepository(protected val ioExecutor: Executor, protected va
         }
     }
 
+    protected fun doInTransaction(runnable: () -> Unit) {
+        try {
+            database.beginTransaction()
+            ioExecutor.execute(runnable)
+            database.setTransactionSuccessful()
+        } finally {
+            database.endTransaction()
+        }
+    }
+
 }

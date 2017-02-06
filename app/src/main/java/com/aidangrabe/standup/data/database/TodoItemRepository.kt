@@ -82,9 +82,9 @@ object TodoItemRepository : SqliteRepository(Threading.DB_EXECUTOR, Threading.MA
     // region ToDoItem extensions
 
     fun TodoItem.save() {
-        doInTransaction(Runnable {
+        doInTransaction {
             database.insert(TodoItemTable.tableName(), null, toContentValues())
-        })
+        }
     }
 
     fun TodoItem.toContentValues(): ContentValues {
@@ -92,6 +92,14 @@ object TodoItemRepository : SqliteRepository(Threading.DB_EXECUTOR, Threading.MA
             put(TodoItemTable.TITLE, title)
             put(TodoItemTable.TYPE, type.toString())
             return this
+        }
+    }
+
+    fun removeItem(todoItem: TodoItem) {
+        doInTransaction {
+            val where = "${TodoItemTable.TITLE}=? AND ${TodoItemTable.TYPE}=?"
+            val args = arrayOf(todoItem.title, todoItem.type.toString())
+            database.delete(TodoItemTable.tableName(), where, args)
         }
     }
 
