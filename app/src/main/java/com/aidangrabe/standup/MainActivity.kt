@@ -48,8 +48,6 @@ class MainActivity : AppCompatActivity() {
         }
         bottomNav.selectTabWithId(R.id.nav_today)
 
-        showNotification()
-
     }
 
     private fun showNotification() {
@@ -73,7 +71,11 @@ class MainActivity : AppCompatActivity() {
             clearTodosForType(type)
             true
         }
-        else -> true
+        R.id.action_show_notification -> {
+            showNotification()
+            true
+        }
+        else -> false
     }
 
     private fun clearTodosForType(type: String) {
