@@ -14,7 +14,7 @@ class StandupDatabase(context: Context) : SQLiteOpenHelper(context, DB_NAME, nul
 
     companion object {
         val DB_NAME = "Standup.db"
-        val DB_VERSION = 1
+        val DB_VERSION = 2
         lateinit var instance: StandupDatabase
 
         fun init(context: Context) {

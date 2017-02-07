@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.View
 import com.aidangrabe.standup.data.TodoItem
-import com.aidangrabe.standup.data.database.TodoItemRepository
+import com.aidangrabe.standup.data.extensions.delete
 import com.aidangrabe.standup.list.ListFragment
 import com.aidangrabe.standup.rows.LabelRow
 
@@ -62,7 +62,7 @@ abstract class TodoListFragment : ListFragment() {
     }
 
     open fun onItemRemoved(position: Int) {
-        TodoItemRepository.removeItem(todoItems[position])
+        todoItems[position].delete()
     }
 
 }

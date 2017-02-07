@@ -4,10 +4,10 @@ package com.aidangrabe.standup.data
  *
  */
 data class TodoItem(
+        val id: Long = -1L,
         val title: String,
         val type: Type
 )
-
 
 enum class Type {
     Today {

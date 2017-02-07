@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.aidangrabe.standup.R
 import com.aidangrabe.standup.data.TodoItem
 import com.aidangrabe.standup.data.Type
-import com.aidangrabe.standup.data.database.TodoItemRepository.save
+import com.aidangrabe.standup.data.extensions.save
 
 /**
  *
@@ -51,13 +51,12 @@ class CreateItemActivity : AppCompatActivity() {
     }
 
     private fun saveTodoItem(title: String) {
-        // todo
-        val todoItem = TodoItem(title, type)
+        val todoItem = TodoItem(title = title, type = type)
         todoItem.save()
     }
 
     private fun validateInput(title: String): Boolean {
-        return title.trim().length > 0
+        return title.trim().isNotEmpty()
     }
 
 }
