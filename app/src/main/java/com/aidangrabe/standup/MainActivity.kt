@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -17,6 +18,7 @@ import com.roughike.bottombar.BottomBar
 
 class MainActivity : AppCompatActivity() {
 
+    val rootView by lazy { findViewById(R.id.activity_main) }
     val bottomNav by lazy { findViewById(R.id.bottom_navigation) as BottomBar }
     val viewPager by lazy { findViewById(R.id.view_pager) as ViewPager }
     val adapter by lazy { MainFragmentAdapter(supportFragmentManager) }
@@ -45,6 +47,12 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setOnTabSelectListener {
             val tabPosition = bottomNav.findPositionForTabWithId(it)
             viewPager.setCurrentItem(tabPosition, true)
+
+            when (tabPosition) {
+                0 -> rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.yesterdayColor))
+                1 -> rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.todayColor))
+                2 -> rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.blockerColor))
+            }
         }
         bottomNav.selectTabWithId(R.id.nav_today)
 
