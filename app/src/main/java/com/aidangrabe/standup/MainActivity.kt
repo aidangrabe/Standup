@@ -1,5 +1,7 @@
 package com.aidangrabe.standup
 
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -10,20 +12,23 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
 import com.aidangrabe.standup.createitem.CreateItemActivity
 import com.aidangrabe.standup.data.Type
 import com.aidangrabe.standup.data.database.TodoItemRepository
 import com.aidangrabe.standup.notifications.NotificationPresenter
 import com.roughike.bottombar.BottomBar
 
+
 class MainActivity : AppCompatActivity() {
 
-    val rootView by lazy { findViewById(R.id.activity_main) }
+    val rootView by lazy { findViewById(R.id.activity_main) as ViewGroup }
     val bottomNav by lazy { findViewById(R.id.bottom_navigation) as BottomBar }
     val viewPager by lazy { findViewById(R.id.view_pager) as ViewPager }
     val adapter by lazy { MainFragmentAdapter(supportFragmentManager) }
 
     var type = Type.Today.toString()
+    var currentBackgroundColor = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,11 +53,21 @@ class MainActivity : AppCompatActivity() {
             val tabPosition = bottomNav.findPositionForTabWithId(it)
             viewPager.setCurrentItem(tabPosition, true)
 
-            when (tabPosition) {
-                0 -> rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.yesterdayColor))
-                1 -> rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.todayColor))
-                2 -> rootView.setBackgroundColor(ContextCompat.getColor(this, R.color.blockerColor))
+            val color = when (tabPosition) {
+                1 -> R.color.todayColor
+                2 -> R.color.blockerColor
+                else -> R.color.yesterdayColor
             }
+
+            if (currentBackgroundColor != 0) {
+                val colorFade = ObjectAnimator.ofObject(rootView, "backgroundColor", ArgbEvaluator(),
+                        ContextCompat.getColor(this, currentBackgroundColor), ContextCompat.getColor(this, color))
+                colorFade.duration = 300
+                colorFade.start()
+            }
+
+            currentBackgroundColor = color
+
         }
         bottomNav.selectTabWithId(R.id.nav_today)
 
