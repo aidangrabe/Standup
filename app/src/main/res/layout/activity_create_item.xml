@@ -2,10 +2,9 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     >
 
     <android.support.design.widget.AppBarLayout
@@ -14,40 +13,33 @@
         android:layout_height="wrap_content"
         >
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <android.support.v7.widget.Toolbar
+            android:fitsSystemWindows="true"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            >
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?colorPrimary"
-                />
-
-        </android.support.design.widget.CollapsingToolbarLayout>
+            android:background="@android:color/transparent"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_marginBottom="48dp"
-            android:paddingStart="32dp"
+            android:fitsSystemWindows="true"
+            android:orientation="vertical"
             android:paddingEnd="32dp"
-            app:layout_anchor="@+id/app_bar"
-            app:layout_anchorGravity="top|start"
+            android:paddingStart="32dp"
             >
 
             <TextView
-                style="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Title"
-                android:textColor="#FFFFFF"
                 android:id="@+id/title"
+                style="@style/Base.TextAppearance.AppCompat.Widget.ActionBar.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="New Today Item"
+                android:textColor="#FFFFFF"
                 />
 
             <android.support.design.widget.TextInputLayout
@@ -59,14 +51,13 @@
                     android:id="@+id/title_field"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textCapWords"
                     android:hint="Title"
+                    android:inputType="textCapWords"
                     />
 
             </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
-
 
     </android.support.design.widget.AppBarLayout>
 
@@ -74,11 +65,11 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="-20dp"
         android:layout_marginEnd="16dp"
-        app:srcCompat="@drawable/ic_fab_send"
+        android:layout_marginTop="-20dp"
         app:layout_anchor="@+id/app_bar"
         app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@drawable/ic_fab_send"
         />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -1,8 +1,10 @@
 package com.aidangrabe.standup.createitem
 
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -28,10 +30,22 @@ class CreateItemActivity : AppCompatActivity() {
         type = Type.fromString(typeString)
 
         val toolbar = findViewById(R.id.toolbar) as Toolbar?
+
         toolbar?.let {
             setSupportActionBar(it)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
+
+        val appBar = findViewById(R.id.app_bar)
+
+        title = ""
+
+        val color = when (type) {
+            Type.Today -> R.color.todayColor
+            Type.Blocker -> R.color.blockerColor
+            else -> R.color.yesterdayColor
+        }
+        appBar.setBackgroundColor(ContextCompat.getColor(this, color))
 
         titleLabel.text = when (type) {
             Type.Yesterday -> "New Item For Yesterday"
@@ -40,6 +54,14 @@ class CreateItemActivity : AppCompatActivity() {
         }
 
         findViewById(R.id.fab).setOnClickListener { saveButtonClicked(it) }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+        android.R.id.home -> {
+            finish()
+            true
+        }
+        else -> false
     }
 
     fun saveButtonClicked(view: View) {
