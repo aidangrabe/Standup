@@ -1,5 +1,7 @@
 package com.aidangrabe.standup.createitem
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -25,6 +27,14 @@ class CreateItemActivity : AppCompatActivity() {
     val titleField by lazy { findViewById(R.id.title_field) as EditText }
 
     @ItemType var type: String = TODAY
+
+    companion object {
+        fun newIntent(context: Context, type: String): Intent {
+            val intent = Intent(context, CreateItemActivity::class.java)
+            intent.putExtra("type", type)
+            return intent
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

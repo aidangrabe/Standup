@@ -2,7 +2,7 @@ package com.aidangrabe.standup
 
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
-import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import com.aidangrabe.standup.createitem.CreateItemActivity
 import com.aidangrabe.standup.data.ItemType
@@ -19,6 +20,8 @@ import com.aidangrabe.standup.data.TodoItem.Companion.TODAY
 import com.aidangrabe.standup.data.database.TodoItemRepository
 import com.aidangrabe.standup.notifications.NotificationPresenter
 import com.roughike.bottombar.BottomBar
+
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,7 +32,6 @@ class MainActivity : AppCompatActivity() {
     val adapter by lazy { MainFragmentAdapter(supportFragmentManager) }
 
     var type = TODAY
-    var currentBackgroundColor = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +40,7 @@ class MainActivity : AppCompatActivity() {
         setupToolbar()
 
         findViewById(R.id.fab).setOnClickListener {
-            val intent = Intent(this, CreateItemActivity::class.java)
-            intent.putExtra("type", type)
-            startActivity(intent)
+            startActivity(CreateItemActivity.newIntent(this, type))
         }
 
         viewPager.adapter = adapter
@@ -60,14 +60,8 @@ class MainActivity : AppCompatActivity() {
                 else -> R.color.yesterdayColor
             }
 
-            if (currentBackgroundColor != 0) {
-                val colorFade = ObjectAnimator.ofObject(rootView, "backgroundColor", ArgbEvaluator(),
-                        ContextCompat.getColor(this, currentBackgroundColor), ContextCompat.getColor(this, color))
-                colorFade.duration = 300
-                colorFade.start()
-            }
-
-            currentBackgroundColor = color
+            val newColor = ContextCompat.getColor(this, color)
+            rootView.fadeBackgroundColorFromTo(newColor)
 
         }
         bottomNav.selectTabWithId(R.id.nav_today)
@@ -114,4 +108,12 @@ class MainActivity : AppCompatActivity() {
 fun ViewPager.getCurrentFragment(): Fragment {
     val fragmentPagerAdapter = adapter as FragmentPagerAdapter
     return fragmentPagerAdapter.getItem(currentItem)
+}
+
+fun View.fadeBackgroundColorFromTo(to: Int) {
+    val currentBackgroundColor = (background as ColorDrawable).color
+    val colorFade = ObjectAnimator.ofObject(this, "backgroundColor", ArgbEvaluator(),
+            currentBackgroundColor, to)
+    colorFade.duration = 300
+    colorFade.start()
 }
