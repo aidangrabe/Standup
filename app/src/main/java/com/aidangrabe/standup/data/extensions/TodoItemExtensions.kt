@@ -16,7 +16,7 @@ fun TodoItem.save() {
 fun TodoItem.toContentValues(): ContentValues {
     with (ContentValues()) {
         put(TodoItemTable.TITLE, title)
-        put(TodoItemTable.TYPE, type.toString())
+        put(TodoItemTable.TYPE, type)
         return this
     }
 }

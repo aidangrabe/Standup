@@ -14,7 +14,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import com.aidangrabe.standup.createitem.CreateItemActivity
-import com.aidangrabe.standup.data.Type
+import com.aidangrabe.standup.data.ItemType
+import com.aidangrabe.standup.data.TodoItem.Companion.TODAY
 import com.aidangrabe.standup.data.database.TodoItemRepository
 import com.aidangrabe.standup.notifications.NotificationPresenter
 import com.roughike.bottombar.BottomBar
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     val viewPager by lazy { findViewById(R.id.view_pager) as ViewPager }
     val adapter by lazy { MainFragmentAdapter(supportFragmentManager) }
 
-    var type = Type.Today.toString()
+    var type = TODAY
     var currentBackgroundColor = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         else -> false
     }
 
-    private fun clearTodosForType(type: String) {
+    private fun clearTodosForType(@ItemType type: String) {
         TodoItemRepository.clearType(type) {
             val fragment = viewPager.getCurrentFragment() as TodoListFragment
             fragment.reload()

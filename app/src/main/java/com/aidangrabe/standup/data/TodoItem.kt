@@ -1,31 +1,27 @@
 package com.aidangrabe.standup.data
 
+import android.support.annotation.StringDef
+import com.aidangrabe.standup.data.TodoItem.Companion.BLOCKER
+import com.aidangrabe.standup.data.TodoItem.Companion.TODAY
+import com.aidangrabe.standup.data.TodoItem.Companion.YESTERDAY
+
 /**
  *
  */
 data class TodoItem(
         val id: Long = -1L,
         val title: String,
-        val type: Type
-)
-
-enum class Type {
-    Today {
-        override fun toString() = "today"
-    },
-    Yesterday {
-        override fun toString() = "yesterday"
-    },
-    Blocker {
-        override fun toString() = "blocker"
-    };
+        @ItemType val type: String
+) {
 
     companion object {
-        fun fromString(type: String) = when (type) {
-            "today" -> Today
-            "yesterday" -> Yesterday
-            "blocker" -> Blocker
-            else -> Today
-        }
+        const val YESTERDAY = "yesterday"
+        const val TODAY = "today"
+        const val BLOCKER = "blocker"
     }
+
 }
+
+@StringDef(YESTERDAY, TODAY, BLOCKER)
+@Retention(AnnotationRetention.SOURCE)
+annotation class ItemType

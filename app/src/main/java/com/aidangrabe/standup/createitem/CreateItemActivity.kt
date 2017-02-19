@@ -9,8 +9,11 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import com.aidangrabe.standup.R
+import com.aidangrabe.standup.data.ItemType
 import com.aidangrabe.standup.data.TodoItem
-import com.aidangrabe.standup.data.Type
+import com.aidangrabe.standup.data.TodoItem.Companion.BLOCKER
+import com.aidangrabe.standup.data.TodoItem.Companion.TODAY
+import com.aidangrabe.standup.data.TodoItem.Companion.YESTERDAY
 import com.aidangrabe.standup.data.extensions.save
 
 /**
@@ -20,14 +23,14 @@ class CreateItemActivity : AppCompatActivity() {
 
     val titleLabel by lazy { findViewById(R.id.title) as TextView }
     val titleField by lazy { findViewById(R.id.title_field) as EditText }
-    var type = Type.Yesterday
+
+    @ItemType var type: String = TODAY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_item)
 
-        val typeString = intent?.extras?.getString("type") ?: Type.Yesterday.toString()
-        type = Type.fromString(typeString)
+        type = intent?.extras?.getString("type") ?: TODAY
 
         val toolbar = findViewById(R.id.toolbar) as Toolbar?
 
@@ -41,15 +44,15 @@ class CreateItemActivity : AppCompatActivity() {
         title = ""
 
         val color = when (type) {
-            Type.Today -> R.color.todayColor
-            Type.Blocker -> R.color.blockerColor
+            TODAY -> R.color.todayColor
+            BLOCKER -> R.color.blockerColor
             else -> R.color.yesterdayColor
         }
         appBar.setBackgroundColor(ContextCompat.getColor(this, color))
 
         titleLabel.text = when (type) {
-            Type.Yesterday -> "New Item For Yesterday"
-            Type.Today -> "New Item For Today"
+            YESTERDAY -> "New Item For Yesterday"
+            TODAY -> "New Item For Today"
             else -> "New Blocker"
         }
 
@@ -72,7 +75,7 @@ class CreateItemActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveTodoItem(title: String) {
+    private fun saveTodoItem(@ItemType title: String) {
         val todoItem = TodoItem(title = title, type = type)
         todoItem.save()
     }

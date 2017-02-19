@@ -3,7 +3,6 @@ package com.aidangrabe.standup.data.database
 import android.database.Cursor
 import com.aidangrabe.standup.Threading
 import com.aidangrabe.standup.data.TodoItem
-import com.aidangrabe.standup.data.Type
 import com.aidangrabe.standup.data.database.tables.TodoItemTable
 import com.aidangrabe.standup.data.extensions.toContentValues
 import java.util.*
@@ -31,7 +30,7 @@ object TodoItemRepository : SqliteRepository(Threading.DB_EXECUTOR, Threading.MA
 
     fun getAllTodoItems(callback: (List<TodoItem>, List<TodoItem>, List<TodoItem>) -> Unit) {
         query("SELECT * FROM ${TodoItemTable.tableName()} ORDER BY ${TodoItemTable.TYPE}") {
-            val resultMap = it.groupBy { it.type.name }
+            val resultMap = it.groupBy { it.type }
             println(resultMap)
             val emptyList = Collections.emptyList<TodoItem>()
             callback(resultMap["Yesterday"] ?: emptyList,
@@ -54,7 +53,7 @@ object TodoItemRepository : SqliteRepository(Threading.DB_EXECUTOR, Threading.MA
         return TodoItem(
                 cursor.getLong(cursor.getColumnIndex(TodoItemTable.ID)),
                 cursor.getString(cursor.getColumnIndex(TodoItemTable.TITLE)),
-                Type.fromString(cursor.getString(cursor.getColumnIndex(TodoItemTable.TYPE)))
+                cursor.getString(cursor.getColumnIndex(TodoItemTable.TYPE))
         )
     }
 
