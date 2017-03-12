@@ -4,7 +4,7 @@ buildscript {
 
     ext {
         versions = [
-                kotlin: '1.0.6',
+                kotlin: '1.1.0',
                 supportLibrary: '25.1.0',
                 targetAndCompileSdk: 25,
 
@@ -18,7 +18,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:2.3.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
     }
 }
